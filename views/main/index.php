@@ -4,12 +4,16 @@ declare(strict_types = 1);
 use app\modules\CQExample\models\ExamplePeoples;
 use app\modules\CQExample\models\ExamplePeoplesSearch;
 use app\modules\CQExample\models\ExamplePets;
+use app\modules\CQExample\models\ExampleRefPetsTypes;
+use app\modules\targets\models\Targets;
+use kartik\grid\DataColumn;
+use kartik\grid\GridView;
 use pozitronik\widgets\BadgeWidget;
 use yii\data\ActiveDataProvider;
 use yii\grid\SerialColumn;
 use yii\grid\ActionColumn;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\grid\GridView;
 use yii\web\View;
 
 /**
@@ -70,7 +74,8 @@ $dataProvider->pagination = false;
 				'format' => 'raw'
 			],
 			[
-				'attribute' => 'petsType',
+				'class' => DataColumn::class,
+				'attribute' => 'petType',
 				'value' => function(ExamplePeoples $model) {
 					return BadgeWidget::widget([
 						'models' => $model->pets,
@@ -78,7 +83,12 @@ $dataProvider->pagination = false;
 						'attribute' => 'refType.name'
 					]);
 				},
-				'format' => 'raw'
+				'format' => 'raw',
+				'filterType' => GridView::FILTER_SELECT2,
+				'filter' => ArrayHelper::map(ExampleRefPetsTypes::find()->all(),'id','name'),
+				'filterWidgetOptions' => [
+					'pluginOptions' => ['allowClear' => true, 'multiple' => true]
+				]
 			],
 
 			[

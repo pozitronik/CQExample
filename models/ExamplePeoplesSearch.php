@@ -10,13 +10,15 @@ use yii\data\ActiveDataProvider;
  * ExamplePeoplesSearch represents the model behind the search form of `app\modules\CQExample\models\ExamplePeoples`.
  */
 class ExamplePeoplesSearch extends ExamplePeoples {
+	public $petType;
+
 	/**
 	 * {@inheritdoc}
 	 */
 	public function rules():array {
 		return [
 			[['id', 'age'], 'integer'],
-			[['name'], 'safe'],
+			[['name', 'petType'], 'safe'],
 		];
 	}
 
@@ -37,6 +39,7 @@ class ExamplePeoplesSearch extends ExamplePeoples {
 	 */
 	public function search($params):ActiveDataProvider {
 		$query = ExamplePeoples::find();
+		$query->joinWith('pets as pets');
 
 		// add conditions that should always apply here
 
@@ -57,6 +60,8 @@ class ExamplePeoplesSearch extends ExamplePeoples {
 			'id' => $this->id,
 			'age' => $this->age,
 		]);
+
+		$query->andFilterWhere(['in', 'pets.type', $this->petType]);
 
 		$query->andFilterWhere(['like', 'name', $this->name]);
 
