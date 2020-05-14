@@ -11,7 +11,7 @@ Proof of concept логики кеширования запросов Yii2.
 1. Клонируем код модуля:
  
 ```bash
-cd @app/modules && git clone https://github.com/pozitronik/CQExample
+cd app/modules && git clone https://github.com/pozitronik/CQExample
 ```
 
 2. Модуль использует мой [удобненький виджет](https://github.com/pozitronik/yii2-badgewidget) для более крутого и наглядного вывода, установите его через composer:
